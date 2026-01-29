@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { 
@@ -10,18 +11,24 @@ import {
   Calendar, 
   Users, 
   Sparkles,
-  ChevronDown
+  ChevronDown,
+  LogOut,
+  User,
+  LayoutDashboard
 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const { user, profile, signOut, isCreatorOrOrganizer } = useAuth();
 
   const categories = [
     { name: "Konser", icon: Sparkles },
@@ -29,6 +36,20 @@ const Navbar = () => {
     { name: "Seminar", icon: Users },
     { name: "Workshop", icon: Ticket },
   ];
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
+  const getInitials = (name: string | null) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -97,19 +118,74 @@ const Navbar = () => {
               <Link to="/creators">
                 <Button variant="ghost">Creator</Button>
               </Link>
-              <Link to="/organizer">
-                <Button variant="ghost">Buat Event</Button>
-              </Link>
+              {isCreatorOrOrganizer() && (
+                <Link to="/dashboard">
+                  <Button variant="ghost">Dashboard</Button>
+                </Link>
+              )}
             </div>
 
             {/* Auth Buttons */}
             <div className="hidden md:flex items-center gap-2">
-              <Link to="/login">
-                <Button variant="outline" size="sm">Masuk</Button>
-              </Link>
-              <Link to="/register">
-                <Button variant="coral" size="sm">Daftar</Button>
-              </Link>
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="gap-2 px-2">
+                      <Avatar className="w-8 h-8">
+                        <AvatarImage src={profile?.avatar_url || undefined} />
+                        <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                          {getInitials(profile?.full_name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="hidden lg:block text-sm font-medium max-w-[100px] truncate">
+                        {profile?.full_name || "User"}
+                      </span>
+                      <ChevronDown className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <div className="px-2 py-1.5">
+                      <p className="text-sm font-medium">{profile?.full_name}</p>
+                      <p className="text-xs text-muted-foreground">{user.email}</p>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link to="/profile" className="gap-2">
+                        <User className="w-4 h-4" />
+                        Profil Saya
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link to="/my-tickets" className="gap-2">
+                        <Ticket className="w-4 h-4" />
+                        Tiket Saya
+                      </Link>
+                    </DropdownMenuItem>
+                    {isCreatorOrOrganizer() && (
+                      <DropdownMenuItem asChild className="cursor-pointer">
+                        <Link to="/dashboard" className="gap-2">
+                          <LayoutDashboard className="w-4 h-4" />
+                          Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut} className="gap-2 cursor-pointer text-destructive">
+                      <LogOut className="w-4 h-4" />
+                      Keluar
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <>
+                  <Link to="/login">
+                    <Button variant="outline" size="sm">Masuk</Button>
+                  </Link>
+                  <Link to="/register">
+                    <Button variant="coral" size="sm">Daftar</Button>
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -139,6 +215,20 @@ const Navbar = () => {
         {isMenuOpen && (
           <div className="lg:hidden border-t border-border bg-card animate-fade-in">
             <div className="container py-4 space-y-2">
+              {user && (
+                <div className="flex items-center gap-3 p-3 bg-muted rounded-lg mb-4">
+                  <Avatar className="w-10 h-10">
+                    <AvatarImage src={profile?.avatar_url || undefined} />
+                    <AvatarFallback className="bg-primary text-primary-foreground">
+                      {getInitials(profile?.full_name)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="font-medium">{profile?.full_name || "User"}</p>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                  </div>
+                </div>
+              )}
               <div className="grid grid-cols-2 gap-2">
                 {categories.map((cat) => (
                   <Link
@@ -158,17 +248,35 @@ const Navbar = () => {
                 <Link to="/creators" className="block">
                   <Button variant="ghost" className="w-full justify-start">Creator</Button>
                 </Link>
-                <Link to="/organizer" className="block">
-                  <Button variant="ghost" className="w-full justify-start">Buat Event</Button>
-                </Link>
+                {user && (
+                  <>
+                    <Link to="/my-tickets" className="block">
+                      <Button variant="ghost" className="w-full justify-start">Tiket Saya</Button>
+                    </Link>
+                    {isCreatorOrOrganizer() && (
+                      <Link to="/dashboard" className="block">
+                        <Button variant="ghost" className="w-full justify-start">Dashboard</Button>
+                      </Link>
+                    )}
+                  </>
+                )}
               </div>
               <div className="pt-4 flex gap-2">
-                <Link to="/login" className="flex-1">
-                  <Button variant="outline" className="w-full">Masuk</Button>
-                </Link>
-                <Link to="/register" className="flex-1">
-                  <Button variant="coral" className="w-full">Daftar</Button>
-                </Link>
+                {user ? (
+                  <Button variant="outline" className="w-full" onClick={handleSignOut}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Keluar
+                  </Button>
+                ) : (
+                  <>
+                    <Link to="/login" className="flex-1">
+                      <Button variant="outline" className="w-full">Masuk</Button>
+                    </Link>
+                    <Link to="/register" className="flex-1">
+                      <Button variant="coral" className="w-full">Daftar</Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
