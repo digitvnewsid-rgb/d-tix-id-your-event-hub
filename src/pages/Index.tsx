@@ -6,6 +6,7 @@ import FeaturedEvents from "@/components/home/FeaturedEvents";
 import CreatorsSection from "@/components/home/CreatorsSection";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import CTASection from "@/components/home/CTASection";
+import PromoBannerCarousel from "@/components/home/PromoBannerCarousel";
 
 const Index = () => {
   return (
@@ -14,7 +15,19 @@ const Index = () => {
       <main className="flex-1">
         <HeroSection />
         <CategorySection />
+        
+        {/* Top Promo Banner Carousel */}
+        <section className="py-6 container">
+          <PromoBannerCarousel position="top" />
+        </section>
+        
         <FeaturedEvents />
+        
+        {/* Middle Promo Banner Carousel */}
+        <section className="py-6 container">
+          <PromoBannerCarousel position="middle" />
+        </section>
+        
         <CreatorsSection />
         <FeaturesSection />
         <CTASection />

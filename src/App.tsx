@@ -12,6 +12,7 @@ import Events from "./pages/Events";
 import EventDetail from "./pages/EventDetail";
 import MyTickets from "./pages/MyTickets";
 import Profile from "./pages/Profile";
+import AdminBanners from "./pages/AdminBanners";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/banners"
+              element={
+                <ProtectedRoute>
+                  <AdminBanners />
                 </ProtectedRoute>
               }
             />

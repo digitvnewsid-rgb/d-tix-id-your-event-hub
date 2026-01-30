@@ -14,7 +14,8 @@ import {
   ChevronDown,
   LogOut,
   User,
-  LayoutDashboard
+  LayoutDashboard,
+  Image
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -162,12 +163,20 @@ const Navbar = () => {
                       </Link>
                     </DropdownMenuItem>
                     {isCreatorOrOrganizer() && (
-                      <DropdownMenuItem asChild className="cursor-pointer">
-                        <Link to="/dashboard" className="gap-2">
-                          <LayoutDashboard className="w-4 h-4" />
-                          Dashboard
-                        </Link>
-                      </DropdownMenuItem>
+                      <>
+                        <DropdownMenuItem asChild className="cursor-pointer">
+                          <Link to="/dashboard" className="gap-2">
+                            <LayoutDashboard className="w-4 h-4" />
+                            Dashboard
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild className="cursor-pointer">
+                          <Link to="/admin/banners" className="gap-2">
+                            <Image className="w-4 h-4" />
+                            Kelola Banner
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
                     )}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleSignOut} className="gap-2 cursor-pointer text-destructive">
@@ -254,9 +263,14 @@ const Navbar = () => {
                       <Button variant="ghost" className="w-full justify-start">Tiket Saya</Button>
                     </Link>
                     {isCreatorOrOrganizer() && (
-                      <Link to="/dashboard" className="block">
-                        <Button variant="ghost" className="w-full justify-start">Dashboard</Button>
-                      </Link>
+                      <>
+                        <Link to="/dashboard" className="block">
+                          <Button variant="ghost" className="w-full justify-start">Dashboard</Button>
+                        </Link>
+                        <Link to="/admin/banners" className="block">
+                          <Button variant="ghost" className="w-full justify-start">Kelola Banner</Button>
+                        </Link>
+                      </>
                     )}
                   </>
                 )}
