@@ -120,8 +120,8 @@ const Navbar = () => {
                 <Button variant="ghost">Creator</Button>
               </Link>
               {isCreatorOrOrganizer() && (
-                <Link to="/dashboard">
-                  <Button variant="ghost">Dashboard</Button>
+                <Link to="/admin">
+                  <Button variant="ghost">Admin</Button>
                 </Link>
               )}
             </div>
@@ -165,15 +165,9 @@ const Navbar = () => {
                     {isCreatorOrOrganizer() && (
                       <>
                         <DropdownMenuItem asChild className="cursor-pointer">
-                          <Link to="/dashboard" className="gap-2">
+                          <Link to="/admin" className="gap-2">
                             <LayoutDashboard className="w-4 h-4" />
-                            Dashboard
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild className="cursor-pointer">
-                          <Link to="/admin/banners" className="gap-2">
-                            <Image className="w-4 h-4" />
-                            Kelola Banner
+                            Admin Dashboard
                           </Link>
                         </DropdownMenuItem>
                       </>
@@ -263,14 +257,9 @@ const Navbar = () => {
                       <Button variant="ghost" className="w-full justify-start">Tiket Saya</Button>
                     </Link>
                     {isCreatorOrOrganizer() && (
-                      <>
-                        <Link to="/dashboard" className="block">
-                          <Button variant="ghost" className="w-full justify-start">Dashboard</Button>
-                        </Link>
-                        <Link to="/admin/banners" className="block">
-                          <Button variant="ghost" className="w-full justify-start">Kelola Banner</Button>
-                        </Link>
-                      </>
+                      <Link to="/admin" className="block">
+                        <Button variant="ghost" className="w-full justify-start">Admin Dashboard</Button>
+                      </Link>
                     )}
                   </>
                 )}
