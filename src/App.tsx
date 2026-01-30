@@ -15,6 +15,13 @@ import Profile from "./pages/Profile";
 import AdminBanners from "./pages/AdminBanners";
 import NotFound from "./pages/NotFound";
 
+// Admin pages
+import Overview from "./pages/admin/Overview";
+import UsersManagement from "./pages/admin/UsersManagement";
+import CategoriesManagement from "./pages/admin/CategoriesManagement";
+import EventsManagement from "./pages/admin/EventsManagement";
+import TicketsManagement from "./pages/admin/TicketsManagement";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -46,6 +53,48 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            
+            {/* Admin Routes */}
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <Overview />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <ProtectedRoute>
+                  <UsersManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/categories"
+              element={
+                <ProtectedRoute>
+                  <CategoriesManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/events"
+              element={
+                <ProtectedRoute>
+                  <EventsManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/tickets"
+              element={
+                <ProtectedRoute>
+                  <TicketsManagement />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/admin/banners"
               element={
@@ -54,6 +103,7 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

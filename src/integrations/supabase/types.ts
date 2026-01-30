@@ -335,6 +335,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_admin: { Args: never; Returns: boolean }
       is_creator_or_organizer: { Args: never; Returns: boolean }
       is_organizer_of_event: { Args: { _event_id: string }; Returns: boolean }
     }
