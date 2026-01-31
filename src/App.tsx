@@ -20,6 +20,7 @@ import Overview from "./pages/admin/Overview";
 import UsersManagement from "./pages/admin/UsersManagement";
 import CategoriesManagement from "./pages/admin/CategoriesManagement";
 import EventsManagement from "./pages/admin/EventsManagement";
+import CreateEvent from "./pages/admin/CreateEvent";
 import TicketsManagement from "./pages/admin/TicketsManagement";
 
 const queryClient = new QueryClient();
@@ -84,6 +85,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <EventsManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/events/create"
+              element={
+                <ProtectedRoute>
+                  <CreateEvent />
                 </ProtectedRoute>
               }
             />

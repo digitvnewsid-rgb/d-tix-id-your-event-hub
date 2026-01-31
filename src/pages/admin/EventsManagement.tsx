@@ -44,6 +44,7 @@ import {
   Calendar,
   ExternalLink,
   MapPin,
+  Plus,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -188,6 +189,16 @@ const EventsManagement = () => {
       title="Manajemen Event"
       description="Kelola semua event di platform"
     >
+      {/* Create Event Button */}
+      <div className="flex justify-end mb-6">
+        <Link to="/admin/events/create">
+          <Button>
+            <Plus className="w-4 h-4 mr-2" />
+            Buat Event Baru
+          </Button>
+        </Link>
+      </div>
+
       {/* Filters */}
       <Card className="mb-6">
         <CardContent className="p-4">
