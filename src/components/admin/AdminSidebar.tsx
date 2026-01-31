@@ -10,6 +10,7 @@ import {
   Settings,
   ChevronLeft,
   Menu,
+  ScanLine,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -39,6 +40,11 @@ const menuItems = [
     title: "Tiket",
     icon: Ticket,
     href: "/admin/tickets",
+  },
+  {
+    title: "Check-in",
+    icon: ScanLine,
+    href: "/admin/check-in",
   },
   {
     title: "Banner",
