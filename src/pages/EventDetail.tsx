@@ -407,7 +407,10 @@ const EventDetail = () => {
                   <div 
                     className="prose prose-sm max-w-none text-foreground"
                     dangerouslySetInnerHTML={{ 
-                      __html: displayEvent.description || "<p>Deskripsi event akan segera tersedia.</p>" 
+                      __html: DOMPurify.sanitize(displayEvent.description || "<p>Deskripsi event akan segera tersedia.</p>", {
+                        ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'a', 'blockquote', 'span'],
+                        ALLOWED_ATTR: ['href', 'target', 'rel']
+                      })
                     }}
                   />
                 </CardContent>
